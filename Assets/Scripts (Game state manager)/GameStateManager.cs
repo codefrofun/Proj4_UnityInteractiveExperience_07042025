@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameStateManager : MonoBehaviour
 {
     public GameManager gameManager;
+    public GameObject inputManagerPrefab;
 
     // Bool to freeze gameplay
     private bool isPaused = false;
@@ -13,8 +14,10 @@ public class GameStateManager : MonoBehaviour
     public enum GameState
     { 
         // Different gamestates 
-        MainMenu_State, Gameplay_State, Paused_State, Options_State
+        MainMenu_State, Gameplay_State, Paused_State, Options_State, Settings_State
     }
+
+    public GameState previousState; // Grab previous state after switching states
 
     public GameState currentState { get; private set; }
 
@@ -30,6 +33,7 @@ public class GameStateManager : MonoBehaviour
     public void ChangeState(GameState newState)
     {
         lastStateDebug = currentState.ToString();
+        previousState = currentState;
 
         currentState = newState;
 
@@ -40,7 +44,7 @@ public class GameStateManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (currentState == GameState.Gameplay_State)
             {
@@ -57,9 +61,14 @@ public class GameStateManager : MonoBehaviour
             ChangeStateToGameplay();
         }
 
-        if (Input.GetKeyDown(KeyCode.C) && currentState == GameState.MainMenu_State)
+        if (Input.GetKeyDown(KeyCode.O) && currentState == GameState.MainMenu_State)
         {
             ChangeStateToOption();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            gameManager.gameStateManager.ChangeState(gameManager.gameStateManager.previousState);
         }
     }
 
@@ -74,7 +83,7 @@ public class GameStateManager : MonoBehaviour
                 break;
 
             case GameState.Gameplay_State:
-                Time.timeScale = 1f;
+                //Time.timeScale = 1f;
                 gameManager.uiManager.EnableGameplay();
                 Debug.Log("Switched to Gameplay screen");
                 break;
@@ -88,7 +97,13 @@ public class GameStateManager : MonoBehaviour
             case GameState.Options_State:
                 Time.timeScale = 0f;
                 gameManager.uiManager.EnableOptions();
-                Debug.Log("Switched to Main Menu screen");
+                Debug.Log("Switched to options screen");
+                break;
+
+            case GameState.Settings_State:
+                Time.timeScale = 0f;
+                gameManager.uiManager.EnableSettings();
+                Debug.Log("Switched to Settings screen");
                 break;
 
         }
@@ -102,8 +117,8 @@ public class GameStateManager : MonoBehaviour
 
     public void Resume()
     {
-        ChangeState(GameState.Gameplay_State);
-        Time.timeScale = 1f;
+        ChangeState(GameState.Gameplay_State); // broken
+        ReturnButton();
     }
 
     public void Pause()
@@ -113,12 +128,23 @@ public class GameStateManager : MonoBehaviour
 
     public void ChangeStateToGameplay()
     {
+        if (FindObjectOfType<InputManager>() == null)
+        {
+            GameObject inputManager = Instantiate(inputManagerPrefab);  // Make sure it's not destroyed
+            DontDestroyOnLoad(inputManager);
+        }
+
         ChangeState(GameState.Gameplay_State);
     }
 
     public void ChangeStateToOption()
     {
         ChangeState(GameState.Options_State);
+    }
+
+    public void ReturnButton()
+    {
+        ChangeState(previousState);
     }
 
     // Referenced quit game method from previous project, closes game to desktop.

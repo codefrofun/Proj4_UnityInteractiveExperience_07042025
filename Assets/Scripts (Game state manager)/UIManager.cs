@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject mainMenuUI;
     public GameObject pauseUI;
     public GameObject optionUI;
+    public GameObject settingsUI;
 
     public void EnableMainMenu()
     {
@@ -24,7 +25,7 @@ public class UIManager : MonoBehaviour
     {
         DisableAll();
         SceneManager.LoadScene("Level_1");
-        gameStateManager.ChangeStateToGameplay();
+        //gameStateManager.ChangeStateToGameplay();
     }
     public void EnablePause()
     {
@@ -38,10 +39,22 @@ public class UIManager : MonoBehaviour
         optionUI.SetActive(true);
     }
 
+    public void EnableSettings()
+    {
+        DisableAll();
+        settingsUI.SetActive(true);
+    }
+
+    public void ReturnButton()
+    {
+        gameManager.gameStateManager.ChangeState(gameManager.gameStateManager.previousState);
+    }
+
     public void DisableAll()
     {
         mainMenuUI.SetActive(false);
         pauseUI.SetActive(false);
         optionUI.SetActive(false);
+        settingsUI.SetActive(false);
     }
 }

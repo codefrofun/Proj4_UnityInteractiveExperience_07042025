@@ -30,8 +30,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        InputActions.MovePlayerEvent += UpdateMoveVector;
     }
 
     // Method to update the movement direction based on the input from InputManager
@@ -76,11 +74,6 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         // Handle the player movement using the current direction
-        HandlePlayerMovement(moveVector);
-    }
-    void OnDisable()
-    {
-        // Unsubscribe from the MovePlayerEvent
-        InputActions.MovePlayerEvent -= UpdateMoveVector;
+        moveVector = InputActions.CurrentMoveInput;
     }
 }

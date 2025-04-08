@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameStateManager gameManager;
+    public GameStateManager gameStateManager;
     public UIManager uiManager;
 }
