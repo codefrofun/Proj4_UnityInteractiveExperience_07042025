@@ -8,9 +8,6 @@ public class GameStateManager : MonoBehaviour
     public GameManager gameManager;
     public GameObject inputManagerPrefab;
 
-    // Bool to freeze gameplay
-    private bool isPaused = false;
-
     public enum GameState
     { 
         // Different gamestates 
@@ -44,7 +41,7 @@ public class GameStateManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /* if (Input.GetKeyDown(KeyCode.Space))
         {
             if (currentState == GameState.Gameplay_State)
             {
@@ -54,7 +51,7 @@ public class GameStateManager : MonoBehaviour
             {
                 Resume();
             }
-        }
+        } */
 
         if (Input.GetKeyDown(KeyCode.G) && currentState == GameState.MainMenu_State)
         {
@@ -63,7 +60,7 @@ public class GameStateManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.O) && currentState == GameState.MainMenu_State)
         {
-            ChangeStateToOption();
+            //ChangeStateToOption();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -83,7 +80,7 @@ public class GameStateManager : MonoBehaviour
                 break;
 
             case GameState.Gameplay_State:
-                //Time.timeScale = 1f;
+                Time.timeScale = 1f;
                 gameManager.uiManager.EnableGameplay();
                 Debug.Log("Switched to Gameplay screen");
                 break;
@@ -117,7 +114,7 @@ public class GameStateManager : MonoBehaviour
 
     public void Resume()
     {
-        ChangeState(GameState.Gameplay_State); // broken
+        //ChangeState(GameState.Gameplay_State); // broken
         ReturnButton();
     }
 
@@ -128,11 +125,11 @@ public class GameStateManager : MonoBehaviour
 
     public void ChangeStateToGameplay()
     {
-        if (FindObjectOfType<InputManager>() == null)
+       /*  if (FindObjectOfType<InputManager>() == null)
         {
             GameObject inputManager = Instantiate(inputManagerPrefab);  // Make sure it's not destroyed
             DontDestroyOnLoad(inputManager);
-        }
+        } */
 
         ChangeState(GameState.Gameplay_State);
     }

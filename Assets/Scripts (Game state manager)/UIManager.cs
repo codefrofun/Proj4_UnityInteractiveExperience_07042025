@@ -25,7 +25,6 @@ public class UIManager : MonoBehaviour
     {
         DisableAll();
         SceneManager.LoadScene("Level_1");
-        //gameStateManager.ChangeStateToGameplay();
     }
     public void EnablePause()
     {
