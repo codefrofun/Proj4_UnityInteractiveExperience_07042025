@@ -368,6 +368,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+            @CarWorkerSound.started += instance.OnCarWorkerSound;
+            @CarWorkerSound.performed += instance.OnCarWorkerSound;
+            @CarWorkerSound.canceled += instance.OnCarWorkerSound;
         }
 
         /// <summary>
@@ -379,7 +385,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerActions" />
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+            @CarWorkerSound.started -= instance.OnCarWorkerSound;
+            @CarWorkerSound.performed -= instance.OnCarWorkerSound;
+            @CarWorkerSound.canceled -= instance.OnCarWorkerSound;
         }
 
         /// <summary>
@@ -433,5 +444,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCarWorkerSound(InputAction.CallbackContext context);
     }
 }
