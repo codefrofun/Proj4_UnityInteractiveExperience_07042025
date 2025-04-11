@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TriggerSceneChange_Prefab : MonoBehaviour
 {
@@ -12,13 +9,14 @@ public class TriggerSceneChange_Prefab : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            Debug.Log("Trigger entered! Scene Name: " + sceneName); // Log the scene name
             if (!string.IsNullOrEmpty(sceneName) && !string.IsNullOrEmpty(spawnPointName))
             {
                 Debug.Log("Player entered trigger. Changing scene to: " + sceneName + " and spawn point: " + spawnPointName);
 
-                if (Game_Manager.Instance != null)
+                if (GameManager.Instance != null)
                 {
-                    Game_Manager.Instance.levelManager.LoadSceneToSpawnPosition(sceneName, spawnPointName);
+                    GameManager.Instance.levelManager.LoadSceneToSpawnPosition(sceneName, spawnPointName);
                 }
                 else
                 {

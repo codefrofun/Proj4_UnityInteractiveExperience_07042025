@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
     public GameManager gameManager;
-    public GameObject inputManagerPrefab;
 
     public enum GameState
     { 
@@ -41,7 +37,7 @@ public class GameStateManager : MonoBehaviour
 
     private void Update()
     {
-        /* if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (currentState == GameState.Gameplay_State)
             {
@@ -51,7 +47,7 @@ public class GameStateManager : MonoBehaviour
             {
                 Resume();
             }
-        } */
+        } 
 
         if (Input.GetKeyDown(KeyCode.G) && currentState == GameState.MainMenu_State)
         {
@@ -114,23 +110,20 @@ public class GameStateManager : MonoBehaviour
 
     public void Resume()
     {
-        //ChangeState(GameState.Gameplay_State); // broken
-        ReturnButton();
+        ChangeState(GameState.Gameplay_State);
+        Time.timeScale = 1f;
+        gameManager.uiManager.DisableAll();
     }
 
     public void Pause()
     {
         ChangeState(GameState.Paused_State);
+        Time.timeScale = 0f;
+        gameManager.uiManager.EnablePause();
     }
 
     public void ChangeStateToGameplay()
     {
-       /*  if (FindObjectOfType<InputManager>() == null)
-        {
-            GameObject inputManager = Instantiate(inputManagerPrefab);  // Make sure it's not destroyed
-            DontDestroyOnLoad(inputManager);
-        } */
-
         ChangeState(GameState.Gameplay_State);
     }
 

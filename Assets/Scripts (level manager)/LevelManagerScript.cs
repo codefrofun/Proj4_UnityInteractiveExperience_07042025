@@ -16,6 +16,17 @@ public class LevelManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    /* //Method to load a new scene and preserve the player across scenes
+    public void LoadScene(string sceneName)
+    {
+        // Ensure the player object persists across scene changes
+        GameObject player = GameManager.Instance.player.gameObject;
+        DontDestroyOnLoad(player);
+
+        // Load the new scene
+        SceneManager.LoadScene(sceneName);
+    } */
+
     public void LoadSceneToSpawnPosition(string sceneName, string spawnPoint)
     {
         spawnPointName = spawnPoint;
@@ -26,7 +37,9 @@ public class LevelManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        SetPlayerToSpawn(spawnPointName);
+        GameObject player = GameManager.Instance.player.gameObject;
+
+            SetPlayerToSpawn(spawnPointName);
         Debug.Log("Scene loaded: " + scene.name);
     }
 
@@ -34,6 +47,8 @@ public class LevelManager : MonoBehaviour
     private void SetPlayerToSpawn(string spawnPointName)
     {
         GameObject spawnPoint = GameObject.Find(spawnPointName);
+
+        GameObject Player = GameObject.FindGameObjectWithTag("Player");
 
         if (spawnPoint != null)
         {
@@ -46,5 +61,3 @@ public class LevelManager : MonoBehaviour
         }
     }
 }
-
-//UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
